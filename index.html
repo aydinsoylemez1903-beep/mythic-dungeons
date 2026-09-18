@@ -1,47 +1,245 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>Mythic Dungeons v0.7</title>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Mythic Dungeons v0.8 — Character Creator</title>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:#080605;color:#f5e8c3;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}button,input{font:inherit}.app{width:min(100vw,430px);margin:auto;background:#0d0907;min-height:100svh}.hidden{display:none!important}
-.createPage{min-height:100svh;display:flex;align-items:flex-start;justify-content:center;padding-top:max(env(safe-area-inset-top),4px);overflow-x:hidden}.canvas{width:100%;aspect-ratio:9/16;position:relative;overflow:hidden;background:linear-gradient(#1c222a 0 46%,#17110d 46% 100%);border-inline:1px solid #44301a;box-shadow:0 0 28px #000}
-.canvas:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 28%,transparent 0 24%,#0006 48%,#000b 100%),repeating-linear-gradient(90deg,#fff0 0 11.6%,#d3a65a12 11.6% 12%);pointer-events:none}
-.headerLogo{position:absolute;left:22%;right:22%;top:1%;z-index:10;text-align:center;font:900 clamp(19px,7vw,34px)/.82 Georgia,serif;color:#f0c25a;text-shadow:0 2px 0 #5c3210,0 5px 9px #000}.headerLogo small{display:block;margin-top:4px;padding:3px 5px;border-radius:0 0 40% 40%;background:#c98b43;color:#2b180c;font:900 clamp(8px,2.8vw,14px)/1 Georgia,serif;text-shadow:none;border:2px solid #70471f}
-.iconBtn{position:absolute;top:1.3%;z-index:12;height:4.8%;min-height:30px;border:2px solid #8b642f;border-radius:5px;background:linear-gradient(#34404b,#151c22);color:#fff4d0;font-weight:900;box-shadow:0 3px 6px #000a}.back{left:1.5%;width:15%}.gear{right:1.5%;width:9%;font-size:1.2em}.banner{position:absolute;top:6.8%;width:16%;height:12.5%;background:linear-gradient(#c5a36d,#9c7749);color:#2b1a10;border:2px solid #5d351d;clip-path:polygon(0 0,100% 0,100% 86%,78% 100%,57% 90%,39% 100%,19% 90%,0 100%);padding:8px 5px;text-align:center;font:900 clamp(6px,2.1vw,10px)/1.15 Arial}.banner.left{left:2%}.banner.right{right:2%}
-.stage{position:absolute;left:0;right:0;top:0;height:49.8%;overflow:hidden;background:linear-gradient(#172634 0 35%,#31231a 70%,#1b120d)}.stage:before{content:"";position:absolute;left:14%;right:14%;top:10%;height:66%;border:8px solid #4b4439;border-bottom:0;border-radius:50% 50% 0 0;box-shadow:inset 0 0 22px #0008}.torch{position:absolute;top:18%;width:3%;height:18%;background:linear-gradient(#ffe788,#ff6a00 30%,transparent 31%);filter:blur(.2px);box-shadow:0 0 16px #ff7a00}.t1{left:6%}.t2{right:6%}.hero{position:absolute;left:50%;bottom:-1%;height:83%;max-width:70%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 7px 5px #000d);transition:.16s}.hero.pulse{transform:translateX(-50%) scale(1.025)}.sideSign{position:absolute;top:22%;width:18%;padding:5px;background:#c6a26f;color:#28180f;border:2px solid #61391f;font:900 clamp(6px,1.9vw,9px)/1.15 Arial;text-align:center}.sideSign.l{left:1.2%;transform:rotate(-2deg)}.sideSign.r{right:1.2%;transform:rotate(2deg)}
-.classRow{position:absolute;left:.6%;right:.6%;top:49.2%;height:16.6%;display:grid;grid-template-columns:repeat(6,1fr);gap:.6%;z-index:8}.classCard{position:relative;overflow:hidden;border:2px solid #6e502a;border-radius:4px;background:#15100c;color:#fff;padding:0;box-shadow:inset 0 0 0 1px #000}.classCard.active{border-color:#43d7ff;box-shadow:0 0 8px #16cfff}.classCard img{position:absolute;left:0;right:0;top:0;width:100%;height:72%;object-fit:contain}.classCard:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#090706ee 45%)}.classCard b{position:absolute;z-index:2;left:1px;right:1px;bottom:15%;font-size:clamp(5px,1.8vw,9px);line-height:1;text-align:center}.classCard small{position:absolute;z-index:2;left:2px;right:2px;bottom:2%;font-size:clamp(3px,1vw,5px);line-height:1.05;text-align:center;color:#e5d4b6}
-.customGrid{position:absolute;left:.7%;right:.7%;top:66.3%;height:17.5%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:.8%;z-index:9}.panel{border:2px solid #76552f;border-radius:4px;background:linear-gradient(#27231f,#16120f);padding:3px 4px;overflow:hidden}.panelTitle{color:#e7c573;font:900 clamp(6px,2vw,10px)/1 Georgia,serif;margin-bottom:3px}.opts{height:70%;display:flex;gap:3px;align-items:stretch}.opt{flex:1;border:1px solid #60452a;border-radius:4px;background:#33271f;color:#f5e4c4;padding:0;font-size:clamp(5px,1.6vw,8px);min-width:0}.opt.active{border:2px solid #3bd5ff;box-shadow:0 0 6px #16cfff;color:#fff}.swatch{border-radius:4px;border:2px solid #5b4027;min-width:18px}.gender .opt{font-size:clamp(14px,5vw,22px)}
-.nameRow{position:absolute;left:.7%;right:.7%;top:84.5%;height:7%;display:grid;grid-template-columns:14% 1fr 9% 23%;gap:.7%;align-items:center;z-index:10}.nameLabel{font:900 clamp(8px,2.4vw,12px)/1 Georgia,serif;color:#e6c16e;text-align:center}.nameInput{width:100%;height:78%;background:#17171a;border:2px solid #665037;color:#fff;padding:0 8px;border-radius:4px;font-size:clamp(8px,2.4vw,12px)}.dice,.legend{height:78%;border:2px solid #76552f;border-radius:4px;background:#24201b;color:#fff;font-weight:900}.legend{background:#c8a46d;color:#321d10;font-size:clamp(5px,1.7vw,8px);line-height:1.1}
-.startBtn{position:absolute;left:20%;right:20%;bottom:1.3%;height:7.5%;z-index:12;border:3px solid #e0ad44;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%);background:linear-gradient(#df342d,#9e1715);color:#fff4d2;font:900 clamp(13px,4.5vw,22px)/1 Georgia,serif;text-shadow:0 2px #58100e;box-shadow:0 4px 10px #000}
-.game{min-height:100svh;padding:10px 10px 74px;background:linear-gradient(#18334b,#6f4926 55%,#17100b);position:relative}.topbar{display:flex;gap:6px;align-items:center;background:#1b1510e8;border:2px solid #815c2e;border-radius:8px;padding:6px}.topbar img{width:42px;height:42px;object-fit:contain}.pill{margin-left:auto;background:#16100d;border:1px solid #72512b;border-radius:7px;padding:6px}.townHero{display:block;margin:40px auto 0;height:410px;max-width:90%;object-fit:contain;filter:drop-shadow(0 10px 7px #000)}.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.menu button{min-height:65px;background:#17110de8;border:2px solid #80592c;color:#ffe5aa;border-radius:7px;font-weight:900}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;background:#0f0a07;border-top:2px solid #64431f}.bottom button{min-height:52px;background:#1d140e;border:1px solid #604526;color:#e5cf9e;border-radius:6px}
-</style></head><body><main class="app">
-<section id="create" class="createPage"><div class="canvas">
-<div class="stage"><div class="torch t1"></div><div class="torch t2"></div><div class="headerLogo">MYTHIC<br>DUNGEONS<small>Kahramanını Oluştur</small></div><button class="iconBtn back">← GERİ</button><button class="iconBtn gear">⚙</button><div class="banner left">KAHRAMANLAR EFSANELER YARATMAZ… ONLAR DİVANALIKTIR!</div><div class="banner right">AYNI ZİNDAN FARKLI AHMAKLAR! İŞTE OLAY BU!</div><div class="sideSign l">İYİ İNSANLAR BURADA DA İÇER!</div><div class="sideSign r">YAĞMALA<br>• GELİŞ<br>• KEPEZ OL<br>• TEKRAR DENE</div><img id="heroArt" class="hero" src="assets/heroes/warrior.svg"></div>
-<div id="classRow" class="classRow"></div>
-<div class="customGrid">
-<div class="panel"><div class="panelTitle">✦ CİNSİYET</div><div class="opts gender" data-k="gender"><button class="opt active" data-v="Erkek">♂<br><small>Erkek</small></button><button class="opt" data-v="Kadın">♀<br><small>Kadın</small></button></div></div>
-<div class="panel"><div class="panelTitle">✦ CÜSSE</div><div class="opts" data-k="body"><button class="opt" data-v="Zayıf">Zayıf</button><button class="opt active" data-v="Normal">Normal</button><button class="opt" data-v="Kaslı">Kaslı</button><button class="opt" data-v="Hantal">Hantal</button></div></div>
-<div class="panel"><div class="panelTitle">✦ SAÇ</div><div class="opts" data-k="hair"><button class="opt active" data-v="1">🧑🏻</button><button class="opt" data-v="2">🧑🏼</button><button class="opt" data-v="3">🧑🏽</button><button class="opt" data-v="4">🧑🏻‍🦳</button><button class="opt" data-v="5">👨🏻‍🦲</button></div></div>
-<div class="panel"><div class="panelTitle">✦ SAKAL</div><div class="opts" data-k="beard"><button class="opt active" data-v="Yok">⊘</button><button class="opt" data-v="1">🧔🏻</button><button class="opt" data-v="2">🧔🏽</button><button class="opt" data-v="3">🧔🏿</button></div></div>
-<div class="panel"><div class="panelTitle">✦ GÖZ RENGİ</div><div class="opts" data-k="eyes"><button class="opt swatch active" data-v="Kahve" style="background:#6f3719"></button><button class="opt swatch" data-v="Mavi" style="background:#20aeea"></button><button class="opt swatch" data-v="Yeşil" style="background:#2fa748"></button><button class="opt swatch" data-v="Altın" style="background:#f1a317"></button><button class="opt swatch" data-v="Mor" style="background:#9144c5"></button></div></div>
-<div class="panel"><div class="panelTitle">✦ TEN RENGİ</div><div class="opts" data-k="skin"><button class="opt swatch active" data-v="1" style="background:#f0bda0"></button><button class="opt swatch" data-v="2" style="background:#d58b5e"></button><button class="opt swatch" data-v="3" style="background:#a25f42"></button><button class="opt swatch" data-v="4" style="background:#714535"></button><button class="opt swatch" data-v="5" style="background:#4b2d28"></button></div></div>
-</div>
-<div class="nameRow"><div class="nameLabel">İSİM</div><input id="heroName" class="nameInput" placeholder="Kahramanının adını gir..." maxlength="16"><button id="dice" class="dice">🎲</button><button class="legend">EFSANE SENİNLE BAŞLAR!</button></div>
-<button id="startBtn" class="startBtn">⚔ MACERAYA BAŞLA</button>
-</div></section>
-<section id="game" class="game hidden"><div class="topbar"><img id="avatar"><div><b id="nameOut">Kahraman</b><div id="classOut" style="font-size:11px;color:#d6bb8a"></div></div><div class="pill">🪙 250</div></div><img id="townHero" class="townHero"><div class="menu"><button>📜<br>GÖREVLER</button><button>💀<br>ZİNDAN</button><button>🛡️<br>KAHRAMAN</button><button>🎒<br>ÇANTA</button><button>🔨<br>DEMİRCİ</button><button>🍺<br>TAVERNA</button></div><div class="bottom"><button>🏰<br>ŞEHİR</button><button>🛡️<br>KAHRAMAN</button><button>🎒<br>ÇANTA</button><button>⚔️<br>SAVAŞ</button></div></section>
-</main><script>
+:root{
+  --gold:#e7b94f; --gold2:#8c5b23; --gold3:#4a2b10;
+  --ink:#fff0c8; --muted:#c7b38c; --cyan:#37d8ff; --cyan2:#08799d;
+  --panel:#15120f; --panel2:#26201a; --red:#b5211d; --red2:#71120f;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:#050403;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{touch-action:manipulation}
+body{display:flex;justify-content:center}
+.app{width:min(100vw,430px);min-height:100svh;background:#0a0705;overflow:hidden}
+.creator{position:relative;width:100%;height:100svh;min-height:700px;max-height:932px;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 29%,#31526d 0 11%,#1b2b38 24%,transparent 25%),
+    linear-gradient(180deg,#18232e 0 46%,#1a130e 46% 100%);
+}
+.creator:before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,#0009,transparent 17%,transparent 83%,#0009),
+    radial-gradient(circle at 50% 22%,transparent 0 30%,#0008 75%,#000d 100%);
+}
+.stone{position:absolute;left:0;right:0;top:0;height:50%;overflow:hidden}
+.stone:before{content:"";position:absolute;left:10%;right:10%;top:10%;height:72%;
+  border:10px solid #575044;border-bottom:0;border-radius:52% 52% 0 0;
+  box-shadow:inset 0 0 30px #0009,0 0 0 2px #2a251f}
+.stone:after{content:"";position:absolute;left:0;right:0;bottom:0;height:20%;
+  background:linear-gradient(transparent,#0c0806 90%)}
+.flame{position:absolute;top:19%;width:12px;height:80px;background:linear-gradient(#fff3a4,#ff9c1c 30%,#ff4b00 55%,transparent 56%);filter:drop-shadow(0 0 8px #ff7a00)}
+.flame.l{left:6%}.flame.r{right:6%}
+.topBtn{position:absolute;top:max(8px,env(safe-area-inset-top));z-index:30;height:45px;border:2px solid #a97832;border-radius:7px;background:linear-gradient(#35414b,#111820);color:#fff2cc;font-weight:900;box-shadow:0 3px 8px #000a,inset 0 0 0 1px #000}
+.back{left:10px;width:88px}.gear{right:10px;width:48px;font-size:22px}
+.logo{position:absolute;z-index:25;top:max(7px,env(safe-area-inset-top));left:22%;right:22%;text-align:center;color:#f0c15d;
+  font:900 clamp(23px,7vw,34px)/.82 Georgia,serif;text-shadow:0 2px #55300e,0 5px 10px #000}
+.logo span{display:block;margin-top:5px;padding:4px 8px;border:2px solid #7b4a1d;background:linear-gradient(#d8a45d,#a66c2f);color:#28160a;
+  font:900 clamp(9px,2.8vw,13px)/1 Georgia,serif;text-shadow:none;transform:skew(-7deg)}
+.banner{position:absolute;z-index:8;top:8%;width:17%;padding:8px 4px 18px;background:linear-gradient(#c8a36b,#8f643a);border:2px solid #5b321b;color:#2c180e;text-align:center;
+  font:900 clamp(6px,1.8vw,9px)/1.15 Arial;clip-path:polygon(0 0,100% 0,100% 84%,80% 100%,60% 89%,40% 100%,20% 89%,0 100%)}
+.banner.left{left:3%}.banner.right{right:3%}
+.sign{position:absolute;z-index:9;top:30%;width:20%;padding:7px 4px;background:#c7a06a;border:2px solid #64391f;color:#28160d;text-align:center;font:900 clamp(6px,1.9vw,9px)/1.2 Arial;box-shadow:0 3px 6px #0008}
+.sign.left{left:1%;transform:rotate(-2deg)}.sign.right{right:1%;transform:rotate(2deg)}
+.heroWrap{position:absolute;z-index:12;left:17%;right:17%;top:10%;height:40%;display:flex;align-items:flex-end;justify-content:center;pointer-events:none}
+.hero{height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 13px 7px #000d);transform-origin:50% 100%;transition:transform .16s ease,filter .16s ease}
+.hero.flash{filter:drop-shadow(0 13px 7px #000d) brightness(1.3)}
+.classStrip{position:absolute;z-index:40;left:0;right:0;top:49%;height:16.5%;padding:0 4px;display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.classCard{position:relative;overflow:hidden;border:2px solid #72502a;border-radius:6px;background:linear-gradient(#1e1813,#0b0907);color:#fff;padding:0;box-shadow:inset 0 0 0 1px #000}
+.classCard.active{border-color:var(--cyan);box-shadow:0 0 10px #16cfff,inset 0 0 0 1px #bdf4ff}
+.classCard img{position:absolute;left:0;top:-2%;width:100%;height:72%;object-fit:contain;filter:drop-shadow(0 3px 2px #000)}
+.classCard:after{content:"";position:absolute;inset:44% 0 0;background:linear-gradient(transparent,#080604f5 42%)}
+.classCard b{position:absolute;z-index:2;left:1px;right:1px;bottom:18%;font-size:clamp(6px,1.85vw,9px);line-height:1;text-align:center}
+.classCard small{position:absolute;z-index:2;left:2px;right:2px;bottom:3%;font-size:clamp(3.5px,1.05vw,5px);line-height:1.05;text-align:center;color:#e5d5b3}
+.custom{position:absolute;z-index:40;left:4px;right:4px;top:66.3%;height:17.7%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:4px}
+.panel{overflow:hidden;border:2px solid #78552c;border-radius:6px;background:linear-gradient(#29231e,#14110e);padding:4px;box-shadow:inset 0 0 0 1px #000}
+.panelTitle{height:23%;color:#f0c767;font:900 clamp(7px,2.1vw,10px)/1 Georgia,serif;white-space:nowrap}
+.opts{height:77%;display:flex;gap:3px;align-items:stretch}
+.opt{position:relative;flex:1;min-width:0;border:1px solid #65482b;border-radius:5px;background:linear-gradient(#3a2c22,#221912);color:#f1dfbb;padding:1px;font-size:clamp(5px,1.55vw,8px);font-weight:800}
+.opt.active{border:2px solid var(--cyan);box-shadow:0 0 7px #16cfff,inset 0 0 8px #0cbcec55;color:#fff}
+.opt .big{display:block;font-size:clamp(15px,4.3vw,22px);line-height:1}
+.swatch{border-radius:5px}
+.nameRow{position:absolute;z-index:45;left:5px;right:5px;top:84.7%;height:6.4%;display:grid;grid-template-columns:13% 1fr 11% 22%;gap:4px;align-items:center}
+.nameLabel{color:#ecc46c;font:900 clamp(9px,2.5vw,12px)/1 Georgia,serif;text-align:center}
+.nameInput{width:100%;height:82%;border:2px solid #6a5136;border-radius:5px;background:#12151b;color:white;padding:0 9px;font-size:16px;outline:none}
+.dice,.legend{height:82%;border:2px solid #79562d;border-radius:5px;background:#221d18;color:#fff;font-weight:900}
+.dice{font-size:20px}.legend{background:linear-gradient(#d0ad77,#a57c49);color:#321b0d;font-size:clamp(5px,1.7vw,8px);line-height:1.05}
+.startBtn{position:absolute;z-index:50;left:17%;right:17%;bottom:max(1.1%,env(safe-area-inset-bottom));height:7.2%;min-height:54px;border:3px solid #e0aa43;
+  clip-path:polygon(7% 0,93% 0,100% 50%,93% 100%,7% 100%,0 50%);background:linear-gradient(#df3d34,#951814);color:#fff2ce;
+  font:900 clamp(15px,4.7vw,23px)/1 Georgia,serif;text-shadow:0 2px #5e100c;box-shadow:0 5px 12px #000}
+.toast{position:absolute;z-index:80;left:8%;right:8%;bottom:10%;padding:12px;border:2px solid #b47e35;border-radius:8px;background:#17100eeF;color:#ffe6ad;text-align:center;font-weight:800;display:none}
+.summary{position:absolute;z-index:100;inset:0;background:#070503f2;display:none;align-items:center;justify-content:center;padding:22px}
+.summaryCard{width:100%;border:3px solid #a67431;border-radius:12px;background:linear-gradient(#2c2118,#130e0a);padding:18px;text-align:center;box-shadow:0 14px 40px #000}
+.summaryHero{height:260px;max-width:85%;object-fit:contain;filter:drop-shadow(0 8px 6px #000)}
+.summaryCard h2{margin:6px 0;color:#f0c767;font-family:Georgia,serif}.summaryCard p{margin:6px 0;color:#d8c39a;font-size:13px}
+.summaryCard button{margin-top:12px;min-height:46px;padding:0 18px;border:2px solid #d2a142;border-radius:7px;background:#8f1b17;color:white;font-weight:900}
+@media(max-height:760px){.creator{min-height:100svh}.logo{font-size:24px}.topBtn{height:40px}.heroWrap{top:11%;height:37%}.classStrip{top:48.5%;height:16.5%}.custom{top:65.3%;height:18.4%}.nameRow{top:84.2%}.startBtn{height:7.1%}}
+</style>
+</head>
+<body>
+<main class="app">
+<section id="creator" class="creator">
+  <div class="stone"></div><div class="flame l"></div><div class="flame r"></div>
+  <button id="backBtn" class="topBtn back" type="button">← GERİ</button>
+  <button id="gearBtn" class="topBtn gear" type="button">⚙</button>
+  <div class="logo">MYTHIC<br>DUNGEONS<span>Kahramanını Oluştur</span></div>
+  <div class="banner left">KAHRAMANLAR<br>EFSANELER<br>YARATMAZ…<br>ONLAR<br>DİVANALIKTIR!</div>
+  <div class="banner right">AYNI<br>ZİNDAN<br>FARKLI<br>AHMAKLAR!<br>İŞTE OLAY BU!</div>
+  <div class="sign left">İYİ<br>İNSANLAR<br>BURADA<br>DA İÇER!</div>
+  <div class="sign right">YAĞMALA<br>• GELİŞ<br>• KEPEZ OL<br>• TEKRAR DENE</div>
+  <div class="heroWrap"><img id="heroArt" class="hero" src="assets/heroes/warrior.svg" alt="Seçili kahraman"></div>
+
+  <div id="classStrip" class="classStrip"></div>
+
+  <div class="custom">
+    <div class="panel">
+      <div class="panelTitle">✦ CİNSİYET</div>
+      <div class="opts" data-key="gender">
+        <button class="opt active" type="button" data-value="Erkek"><span class="big">♂</span>Erkek</button>
+        <button class="opt" type="button" data-value="Kadın"><span class="big">♀</span>Kadın</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">✦ CÜSSE</div>
+      <div class="opts" data-key="body">
+        <button class="opt" type="button" data-value="Zayıf">Zayıf</button>
+        <button class="opt active" type="button" data-value="Normal">Normal</button>
+        <button class="opt" type="button" data-value="Kaslı">Kaslı</button>
+        <button class="opt" type="button" data-value="Hantal">Hantal</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">✦ SAÇ</div>
+      <div class="opts" data-key="hair">
+        <button class="opt active" type="button" data-value="1"><span class="big">◆</span>1</button>
+        <button class="opt" type="button" data-value="2"><span class="big">◆</span>2</button>
+        <button class="opt" type="button" data-value="3"><span class="big">◆</span>3</button>
+        <button class="opt" type="button" data-value="4"><span class="big">◆</span>4</button>
+        <button class="opt" type="button" data-value="5"><span class="big">○</span>5</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">✦ SAKAL</div>
+      <div class="opts" data-key="beard">
+        <button class="opt active" type="button" data-value="Yok"><span class="big">⊘</span>Yok</button>
+        <button class="opt" type="button" data-value="1"><span class="big">▾</span>1</button>
+        <button class="opt" type="button" data-value="2"><span class="big">▼</span>2</button>
+        <button class="opt" type="button" data-value="3"><span class="big">◆</span>3</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">✦ GÖZ RENGİ</div>
+      <div class="opts" data-key="eyes">
+        <button class="opt swatch active" type="button" data-value="Kahve" style="background:#783915"></button>
+        <button class="opt swatch" type="button" data-value="Mavi" style="background:#22aee8"></button>
+        <button class="opt swatch" type="button" data-value="Yeşil" style="background:#31a849"></button>
+        <button class="opt swatch" type="button" data-value="Altın" style="background:#f0a41a"></button>
+        <button class="opt swatch" type="button" data-value="Mor" style="background:#8845bf"></button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">✦ TEN RENGİ</div>
+      <div class="opts" data-key="skin">
+        <button class="opt swatch active" type="button" data-value="Açık" style="background:#f1bea0"></button>
+        <button class="opt swatch" type="button" data-value="Buğday" style="background:#d58b5c"></button>
+        <button class="opt swatch" type="button" data-value="Esmer" style="background:#a55f42"></button>
+        <button class="opt swatch" type="button" data-value="Koyu" style="background:#704535"></button>
+        <button class="opt swatch" type="button" data-value="Çok Koyu" style="background:#4a2d28"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nameRow">
+    <div class="nameLabel">İSİM</div>
+    <input id="heroName" class="nameInput" maxlength="16" placeholder="Kahramanının adını gir...">
+    <button id="diceBtn" class="dice" type="button" aria-label="Rastgele isim">🎲</button>
+    <button id="legendBtn" class="legend" type="button">EFSANE<br>SENİNLE BAŞLAR!</button>
+  </div>
+
+  <button id="startBtn" class="startBtn" type="button">⚔ MACERAYA BAŞLA</button>
+  <div id="toast" class="toast" role="status"></div>
+
+  <div id="summary" class="summary">
+    <div class="summaryCard">
+      <img id="summaryHero" class="summaryHero" alt="">
+      <h2 id="summaryName"></h2>
+      <p id="summaryClass"></p>
+      <p id="summaryDetails"></p>
+      <button id="summaryBack" type="button">KARAKTERE DÖN</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
 const HEROES=[
-{name:'SAVAŞÇI',asset:'assets/heroes/warrior.svg',tag:'ÖNCE VUR. SONRA SOR.'},
-{name:'OKÇU',asset:'assets/heroes/ranger.svg',tag:'UZAKTAN ÇÖZ, YAKINDAN KAÇ.'},
-{name:'BÜYÜCÜ',asset:'assets/heroes/mage.svg',tag:'SORULAR SOR. GERÇEĞİ UMURSAMA.'},
-{name:'SUİKASTÇI',asset:'assets/heroes/assassin.svg',tag:'ŞİMDİ SAPLA. SONRA AÇIKLA.'},
-{name:'PALADİN',asset:'assets/heroes/paladin.svg',tag:'İYİLİK YAP. HARİKA GÖRÜN.'},
-{name:'NEKROMANSER',asset:'assets/heroes/necromancer.svg',tag:'ARKADAŞLAR ASLA ÖLMEZ.'}
+ {name:'SAVAŞÇI',asset:'assets/heroes/warrior.svg',tag:'ÖNCE VUR. SONRA SOR.'},
+ {name:'OKÇU',asset:'assets/heroes/ranger.svg',tag:'UZAKTAN ÇÖZ, YAKINDAN KAÇ.'},
+ {name:'BÜYÜCÜ',asset:'assets/heroes/mage.svg',tag:'SORULAR SOR. GERÇEĞİ UMURSAMA.'},
+ {name:'SUİKASTÇI',asset:'assets/heroes/assassin.svg',tag:'ŞİMDİ SAPLA. SONRA AÇIKLA.'},
+ {name:'PALADİN',asset:'assets/heroes/paladin.svg',tag:'İYİLİK YAP. HARİKA GÖRÜN.'},
+ {name:'NEKROMANSER',asset:'assets/heroes/necromancer.svg',tag:'ARKADAŞLAR ASLA ÖLMEZ.'}
 ];
-const S={hero:0,gender:'Erkek',body:'Normal',hair:'1',beard:'Yok',eyes:'Kahve',skin:'1',name:''};
+const state={hero:0,gender:'Erkek',body:'Normal',hair:'1',beard:'Yok',eyes:'Kahve',skin:'Açık'};
 const $=id=>document.getElementById(id);
-function buildClasses(){const row=$('classRow');row.innerHTML='';HEROES.forEach((h,i)=>{const b=document.createElement('button');b.className='classCard'+(i===S.hero?' active':'');b.innerHTML='<img src="'+h.asset+'"><b>'+h.name+'</b><small>'+h.tag+'</small>';b.addEventListener('click',()=>{S.hero=i;$('heroArt').src=h.asset;$('heroArt').classList.add('pulse');setTimeout(()=>$('heroArt').classList.remove('pulse'),160);buildClasses()});row.appendChild(b)})}
-function bindOptions(){document.querySelectorAll('.opts').forEach(g=>g.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{g.querySelectorAll('.opt').forEach(x=>x.classList.remove('active'));b.classList.add('active');S[g.dataset.k]=b.dataset.v})))}
-$('dice').addEventListener('click',()=>{const n=['Rauf','Aydin','Boran','Tavukhan','Gribnik','Eldor','Kezbanor'];$('heroName').value=n[Math.floor(Math.random()*n.length)]});
-$('startBtn').addEventListener('click',()=>{S.name=$('heroName').value.trim()||'Adsız Kahraman';$('create').classList.add('hidden');$('game').classList.remove('hidden');$('avatar').src=HEROES[S.hero].asset;$('townHero').src=HEROES[S.hero].asset;$('nameOut').textContent=S.name;$('classOut').textContent=HEROES[S.hero].name});
-buildClasses();bindOptions();
-</script></body></html>
+function toast(msg){
+ const t=$('toast'); t.textContent=msg; t.style.display='block';
+ clearTimeout(window.__toast); window.__toast=setTimeout(()=>t.style.display='none',1300);
+}
+function bodyScale(){
+ const map={Zayıf:[.90,1.00],Normal:[1,1],Kaslı:[1.10,1.02],Hantal:[1.16,.95]};
+ const v=map[state.body]||[1,1];
+ $('heroArt').style.transform=`scale(${v[0]},${v[1]})`;
+}
+function selectHero(i){
+ state.hero=i; const h=HEROES[i];
+ $('heroArt').src=h.asset; $('heroArt').classList.add('flash');
+ setTimeout(()=>$('heroArt').classList.remove('flash'),150);
+ renderClasses(); bodyScale();
+}
+function renderClasses(){
+ const row=$('classStrip'); row.innerHTML='';
+ HEROES.forEach((h,i)=>{
+   const b=document.createElement('button');
+   b.type='button'; b.className='classCard'+(i===state.hero?' active':'');
+   b.setAttribute('aria-label',h.name);
+   b.innerHTML=`<img src="${h.asset}" alt=""><b>${h.name}</b><small>${h.tag}</small>`;
+   b.addEventListener('click',()=>selectHero(i));
+   row.appendChild(b);
+ });
+}
+document.querySelectorAll('.opts').forEach(group=>{
+ group.querySelectorAll('.opt').forEach(btn=>{
+   btn.addEventListener('click',()=>{
+     group.querySelectorAll('.opt').forEach(x=>x.classList.remove('active'));
+     btn.classList.add('active');
+     state[group.dataset.key]=btn.dataset.value;
+     if(group.dataset.key==='body') bodyScale();
+   });
+ });
+});
+$('diceBtn').addEventListener('click',()=>{
+ const names=['Aydin','Rauf','Boran','Tavukhan','Eldor','Gribnik','Korhan','Alaric'];
+ $('heroName').value=names[Math.floor(Math.random()*names.length)];
+});
+$('legendBtn').addEventListener('click',()=>toast('Efsane, ilk yanlış kararla başlar.'));
+$('gearBtn').addEventListener('click',()=>toast('Ayarlar sonraki ekranda.'));
+$('backBtn').addEventListener('click',()=>toast('Şimdilik başlangıç ekranındasın.'));
+$('startBtn').addEventListener('click',()=>{
+ const n=$('heroName').value.trim()||'Adsız Kahraman';
+ const h=HEROES[state.hero];
+ $('summaryHero').src=h.asset;
+ $('summaryName').textContent=n;
+ $('summaryClass').textContent=h.name;
+ $('summaryDetails').textContent=`${state.gender} • ${state.body} • Saç ${state.hair} • Sakal ${state.beard} • ${state.eyes} göz • ${state.skin} ten`;
+ $('summary').style.display='flex';
+});
+$('summaryBack').addEventListener('click',()=>$('summary').style.display='none');
+renderClasses(); bodyScale();
+</script>
+</body>
+</html>
