@@ -1,133 +1,47 @@
 <!doctype html>
-<html lang="tr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mythic Dungeons v0.6</title>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>Mythic Dungeons v0.7</title>
 <style>
-:root{
- --gold:#d4a64b;--gold2:#8a622b;--ink:#f6e7c0;--dim:#b7a47e;--stone:#29251f;
- --panel:rgba(22,19,15,.96);--red:#a83227;--green:#4f9c59;--blue:#347eaa;--shadow:0 12px 30px #000b
-}
-*{box-sizing:border-box}html,body{margin:0;background:#070605;color:var(--ink);font-family:Trebuchet MS,Arial,sans-serif}button,input{font:inherit}
-.app{width:min(430px,100%);margin:auto;min-height:100vh;background:radial-gradient(circle at 50% 12%,#29231b,#0a0806 55%);overflow:hidden}
-.hidden{display:none!important}.screen{min-height:100vh;padding:9px 9px 84px}.goldFrame{border:2px solid var(--gold2);box-shadow:inset 0 0 0 1px #e9bd5f22,var(--shadow);background:linear-gradient(#312a21f5,#17130ff8);border-radius:12px}
-.logo{text-align:left;font:900 24px/.86 Georgia,serif;color:#edc66c;text-shadow:0 2px #4f2d10;letter-spacing:.3px}.smallTitle{font:700 10px Georgia,serif;color:#bca477;letter-spacing:2px}
-.topTitle{display:flex;align-items:flex-start;justify-content:space-between;padding:8px 4px 9px}.topTitle .crest{font-size:24px;filter:drop-shadow(0 2px 2px #000)}
-/* exact concept composition */
-.creator{display:grid;grid-template-columns:76px 1fr;gap:7px}
-.classRail{padding:6px;display:flex;flex-direction:column;gap:5px}
-.classRail h4{margin:2px 0 4px;font:700 9px Georgia,serif;color:#d6b969;text-align:center;letter-spacing:1px}
-.classBtn{height:56px;position:relative;overflow:hidden;border:1px solid #735525;border-radius:7px;background:#100d0a;color:#fff;padding:0}
-.classBtn.active{border-color:#e5bc5a;box-shadow:0 0 0 1px #e5bc5a,0 0 13px #c58b2f66}
-.classBtn img{position:absolute;left:0;top:-7px;width:42px;height:70px;object-fit:contain;filter:drop-shadow(0 2px 2px #000)}
-.classBtn span{position:absolute;left:36px;right:2px;top:17px;font-size:8px;font-weight:900;text-align:left}
-.mainColumn{display:grid;gap:7px}
-.characterStage{height:435px;position:relative;overflow:hidden;background:
- linear-gradient(180deg,#11100eb8,#11100e22 30%,#080706c7),
- radial-gradient(circle at 50% 82%,#79623f 0 7%,#443723 7% 15%,transparent 15%),
- linear-gradient(180deg,#35342f 0 38%,#1d1b18 38% 100%);
- border-radius:12px;border:2px solid #8a652e;box-shadow:var(--shadow)}
-.characterStage:before{content:"";position:absolute;inset:0;background:
- linear-gradient(90deg,#0008,transparent 22%,transparent 78%,#0008),
- repeating-linear-gradient(90deg,transparent 0 68px,#d2ad6330 68px 72px);
- opacity:.75}
-.arch{position:absolute;left:17%;right:17%;top:32px;height:205px;border:13px solid #50483b;border-bottom:0;border-radius:55% 55% 0 0;opacity:.72;box-shadow:inset 0 0 18px #000}
-.platform{position:absolute;left:50%;bottom:24px;width:200px;height:44px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,#7b6645,#3a3022 60%,#17120c 72%);border:3px solid #9a7838;box-shadow:0 13px 15px #000}
-.heroMain{position:absolute;left:50%;bottom:31px;height:390px;max-width:94%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 12px 7px #000d);transition:.18s transform,.18s filter}
-.heroMain.hit{transform:translateX(-50%) translateX(-8px) rotate(-2deg);filter:drop-shadow(0 12px 7px #000d) brightness(1.45)}
-.quote{position:absolute;left:8px;right:8px;bottom:7px;text-align:center;font:italic 11px Georgia,serif;color:#ddc693;text-shadow:0 1px #000}
-.tabBar{position:absolute;right:5px;top:9px;display:flex;gap:3px;z-index:5}.tabBar button{border:1px solid #71542d;background:#17120d;color:#c9b58b;border-radius:5px;padding:5px 6px;font-size:7px}.tabBar button.active{color:#ffe098;border-color:#d5a84d;background:#332615}
-.sidePanel{position:absolute;right:7px;top:48px;width:115px;min-height:165px;background:#17130fe6;border:1px solid #77582b;border-radius:8px;padding:8px;z-index:4}.sidePanel h3{margin:0 0 7px;font:700 11px Georgia,serif;color:#e1bd66}.sidePanel .line{padding:4px 0;border-bottom:1px solid #5b472a66;font-size:8px;color:#ceb98d}.appearanceGrid{display:grid;grid-template-columns:1fr 1fr;gap:4px}.appearanceGrid button{height:27px;border:1px solid #624725;background:#251b12;color:#d8c398;border-radius:5px;font-size:7px}.appearanceGrid button.active{border-color:#d5aa50;color:#ffe6a3}
-.createBtn{position:absolute;right:8px;bottom:31px;z-index:5;border:2px solid #d9a94b;border-radius:8px;background:linear-gradient(#79521d,#3d2912);color:#ffe09b;font:900 10px Georgia,serif;padding:10px 12px;box-shadow:0 0 18px #d99a3344}
-/* lower showcase */
-.showcase{padding:7px}.showcase h3{margin:0 0 6px;font:700 9px Georgia,serif;color:#d4b562;letter-spacing:1px}.heroRow,.enemyRow{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.heroRow::-webkit-scrollbar,.enemyRow::-webkit-scrollbar{display:none}.miniCard{min-width:62px;height:82px;border:1px solid #6d522e;border-radius:6px;background:#110d09;position:relative;overflow:hidden;color:#fff;padding:0}.miniCard.active{border-color:#e1b754;box-shadow:0 0 11px #c58d3155}.miniCard img{width:100%;height:66px;object-fit:contain;object-position:50% 18%}.miniCard b{position:absolute;bottom:2px;left:2px;right:2px;font-size:6px;text-align:center}.enemyCard{min-width:58px;height:72px;border:1px solid #684a29;border-radius:6px;background:#100c09;position:relative;overflow:hidden;color:#fff;padding:0}.enemyCard img{width:100%;height:57px;object-fit:contain}.enemyCard span{position:absolute;left:2px;right:2px;bottom:2px;font-size:5px;text-align:center}.mottoBottom{text-align:center;font:700 9px Georgia,serif;letter-spacing:2px;color:#b99d6d;margin:8px 0 2px}
-/* hub */
-.topbar{display:flex;align-items:center;gap:7px;padding:6px;position:sticky;top:4px;z-index:20}.topbar img{width:44px;height:44px;object-fit:contain;border:1px solid #8a652f;border-radius:7px;background:#100c08}.pill{padding:6px 7px;border:1px solid #6e512d;background:#15100c;border-radius:7px;font-size:10px}.push{margin-left:auto}.town{min-height:610px;margin-top:8px;position:relative;overflow:hidden;background:linear-gradient(#1d2e3b,#5b4025 57%,#18100b);border:2px solid #79592d;border-radius:12px}.town:before{content:"";position:absolute;left:12%;right:12%;top:90px;height:205px;background:#343334;clip-path:polygon(0 45%,8% 45%,8% 14%,17% 14%,17% 38%,30% 38%,30% 0,42% 0,42% 33%,57% 33%,57% 10%,69% 10%,69% 40%,83% 40%,83% 18%,92% 18%,92% 45%,100% 45%,100% 100%,0 100%)}.townHero{position:absolute;left:50%;bottom:125px;height:330px;max-width:80%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 10px 8px #000)}.menuGrid{position:absolute;bottom:9px;left:8px;right:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.menuGrid button{min-height:70px;border:1px solid #86602d;background:#1a120ddd;color:#ead7aa;border-radius:7px;font-weight:900;font-size:9px}.menuGrid button span{display:block;font-size:21px}
-/* battle */
-.battleRoom{min-height:650px;margin-top:8px;position:relative;overflow:hidden;background:linear-gradient(#12191e,#30241b 62%,#0b0806);border:2px solid #74542e;border-radius:12px;padding:8px}.battleRoom:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 56px,#b18a4a10 56px 60px)}.battleHead{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center}.fighters{display:flex;gap:8px;align-items:end;margin:34px 0 10px;position:relative;z-index:2}.fighter{width:50%;text-align:center;position:relative}.fighter img{width:100%;height:275px;object-fit:contain;filter:drop-shadow(0 8px 5px #000c);transition:.15s transform,.15s filter}.fighter img.attack{transform:translateX(12px) scale(1.03)}.fighter.enemy img.attack{transform:translateX(-12px) scale(1.03)}.hp{height:14px;background:#240b08;border:2px solid #5e3d26;border-radius:99px;overflow:hidden}.hp div{height:100%;background:linear-gradient(90deg,#69bd6a,#357e43);transition:.2s width}.hp.enemy div{background:linear-gradient(90deg,#e15a45,#a62e25)}.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;position:relative;z-index:2}.skills button{min-height:57px;border:1px solid #70502b;background:#17110d;color:#e8d4aa;border-radius:7px;font-size:7px}.skills button span{display:block;font-size:19px}.log{position:relative;z-index:2;height:120px;overflow:auto;background:#0b0705e8;border:1px solid #634824;border-radius:7px;padding:7px;font-size:11px;line-height:1.4;margin-top:6px}.big{width:100%;min-height:48px;margin-top:6px;border:2px solid #d6a74b;border-radius:8px;background:linear-gradient(#764618,#3d2510);color:#ffe3a1;font-weight:900}.big:disabled{opacity:.55}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;background:#0f0b08;border-top:2px solid #644822;z-index:30}.bottom button{min-height:55px;border:1px solid #5e4428;background:#1a120d;color:#d8c39a;border-radius:7px;font-size:8px}.bottom button span{display:block;font-size:20px}.bottom button.active{color:#ffe09b;border-color:#d1a149}.toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);max-width:90%;z-index:50;background:#24170f;border:2px solid #9b6e34;border-radius:9px;padding:9px 11px;display:none;font-size:11px}
-</style>
-</head>
-<body>
-<main class="app">
-<section id="create" class="screen">
- <div class="topTitle"><div><div class="logo">MYTHIC<br>DUNGEONS</div><div class="smallTitle">CREATE YOUR LEGEND</div></div><div class="crest">⚜️</div></div>
- <div class="creator">
-   <aside class="classRail goldFrame"><h4>CLASS</h4><div id="classRail"></div></aside>
-   <div class="mainColumn">
-     <div class="characterStage">
-       <div class="arch"></div><div class="platform"></div>
-       <img id="createHeroArt" class="heroMain" src="assets/heroes/warrior.svg">
-       <div class="tabBar"><button class="tab active" data-tab="appearance">Appearance</button><button class="tab" data-tab="stats">Stats</button><button class="tab" data-tab="background">Background</button><button class="tab" data-tab="preview">Preview</button></div>
-       <div id="sidePanel" class="sidePanel"></div>
-       <div id="quote" class="quote">“A warrior's heart never retreats.”</div>
-       <button id="createCharacter" class="createBtn">CREATE CHARACTER</button>
-     </div>
-     <div class="showcase goldFrame"><h3>CLASS SHOWCASE</h3><div id="heroShowcase" class="heroRow"></div></div>
-     <div class="showcase goldFrame"><h3>ENEMIES PREVIEW</h3><div id="enemyPreview" class="enemyRow"></div></div>
-   </div>
- </div>
- <div class="mottoBottom">HEROES RISE. LEGENDS ENDURE.</div>
-</section>
-
-<section id="game" class="screen hidden">
- <div id="home" class="view">
-  <div class="topbar goldFrame"><img id="avatar"><div><b id="topName">Aydin</b><div class="smallTitle"><span id="topClass"></span> • LEVEL <span id="level">1</span></div></div><div class="push pill">🪙 <span id="gold">250</span></div><div class="pill">💎 <span id="gems">5</span></div></div>
-  <div class="town"><div class="logo" style="text-align:center;position:relative;z-index:2;padding-top:14px">MYTHIC<br>DUNGEONS</div><img id="townHero" class="townHero"><div class="menuGrid"><button data-view="hero"><span>🛡️</span>HERO</button><button data-view="battle"><span>⚔️</span>DUNGEON</button><button data-view="bag"><span>🎒</span>INVENTORY</button><button onclick="toast('Blacksmith next visual pass.')"><span>🔨</span>BLACKSMITH</button><button onclick="toast('Tavern is coming next.')"><span>🍺</span>TAVERN</button><button onclick="toast('Quest board is coming next.')"><span>📜</span>QUESTS</button></div></div>
- </div>
- <div id="hero" class="view hidden"><div class="topbar goldFrame"><b>HERO PROFILE</b><div class="push pill">POWER <span id="power">0</span></div></div><div class="characterStage" style="margin-top:8px;height:500px"><div class="arch"></div><div class="platform"></div><img id="profileHero" class="heroMain" style="height:440px"><div id="profileInfo" class="sidePanel" style="top:18px"></div></div></div>
- <div id="bag" class="view hidden"><div class="topbar goldFrame"><b>INVENTORY</b><div class="push pill"><span id="bagCount">0</span>/40</div></div><div id="inventory" class="showcase goldFrame" style="margin-top:8px;min-height:520px;display:grid;grid-template-columns:repeat(4,1fr);align-content:start;gap:6px"></div></div>
- <div id="battle" class="view hidden">
-  <div class="battleRoom">
-   <div class="battleHead"><div><b>FLOOR <span id="floor">1</span>/5</b><div class="smallTitle">THE BROKEN SEAL</div></div><div class="pill">AUTO TURN</div></div>
-   <div class="fighters"><div class="fighter"><div class="hp"><div id="heroHp"></div></div><img id="battleHero"><b id="battleHeroName"></b></div><div class="fighter enemy"><div class="hp enemy"><div id="enemyHp"></div></div><img id="enemyArt"><b id="enemyName"></b></div></div>
-   <div id="skills" class="skills"></div>
-   <div id="combatLog" class="log">Dungeon is quiet. Suspiciously quiet.</div>
-   <button id="fightBtn" class="big">⚔️ START BATTLE</button>
-  </div>
- </div>
- <div class="bottom"><button class="active" data-view="home"><span>🏰</span>TOWN</button><button data-view="hero"><span>🛡️</span>HERO</button><button data-view="bag"><span>🎒</span>BAG</button><button data-view="battle"><span>⚔️</span>BATTLE</button></div>
-</section>
-</main>
-<div id="toast" class="toast"></div>
-<script>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:#080605;color:#f5e8c3;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}button,input{font:inherit}.app{width:min(100vw,430px);margin:auto;background:#0d0907;min-height:100svh}.hidden{display:none!important}
+.createPage{min-height:100svh;display:flex;align-items:flex-start;justify-content:center;padding-top:max(env(safe-area-inset-top),4px);overflow-x:hidden}.canvas{width:100%;aspect-ratio:9/16;position:relative;overflow:hidden;background:linear-gradient(#1c222a 0 46%,#17110d 46% 100%);border-inline:1px solid #44301a;box-shadow:0 0 28px #000}
+.canvas:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 28%,transparent 0 24%,#0006 48%,#000b 100%),repeating-linear-gradient(90deg,#fff0 0 11.6%,#d3a65a12 11.6% 12%);pointer-events:none}
+.headerLogo{position:absolute;left:22%;right:22%;top:1%;z-index:10;text-align:center;font:900 clamp(19px,7vw,34px)/.82 Georgia,serif;color:#f0c25a;text-shadow:0 2px 0 #5c3210,0 5px 9px #000}.headerLogo small{display:block;margin-top:4px;padding:3px 5px;border-radius:0 0 40% 40%;background:#c98b43;color:#2b180c;font:900 clamp(8px,2.8vw,14px)/1 Georgia,serif;text-shadow:none;border:2px solid #70471f}
+.iconBtn{position:absolute;top:1.3%;z-index:12;height:4.8%;min-height:30px;border:2px solid #8b642f;border-radius:5px;background:linear-gradient(#34404b,#151c22);color:#fff4d0;font-weight:900;box-shadow:0 3px 6px #000a}.back{left:1.5%;width:15%}.gear{right:1.5%;width:9%;font-size:1.2em}.banner{position:absolute;top:6.8%;width:16%;height:12.5%;background:linear-gradient(#c5a36d,#9c7749);color:#2b1a10;border:2px solid #5d351d;clip-path:polygon(0 0,100% 0,100% 86%,78% 100%,57% 90%,39% 100%,19% 90%,0 100%);padding:8px 5px;text-align:center;font:900 clamp(6px,2.1vw,10px)/1.15 Arial}.banner.left{left:2%}.banner.right{right:2%}
+.stage{position:absolute;left:0;right:0;top:0;height:49.8%;overflow:hidden;background:linear-gradient(#172634 0 35%,#31231a 70%,#1b120d)}.stage:before{content:"";position:absolute;left:14%;right:14%;top:10%;height:66%;border:8px solid #4b4439;border-bottom:0;border-radius:50% 50% 0 0;box-shadow:inset 0 0 22px #0008}.torch{position:absolute;top:18%;width:3%;height:18%;background:linear-gradient(#ffe788,#ff6a00 30%,transparent 31%);filter:blur(.2px);box-shadow:0 0 16px #ff7a00}.t1{left:6%}.t2{right:6%}.hero{position:absolute;left:50%;bottom:-1%;height:83%;max-width:70%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 7px 5px #000d);transition:.16s}.hero.pulse{transform:translateX(-50%) scale(1.025)}.sideSign{position:absolute;top:22%;width:18%;padding:5px;background:#c6a26f;color:#28180f;border:2px solid #61391f;font:900 clamp(6px,1.9vw,9px)/1.15 Arial;text-align:center}.sideSign.l{left:1.2%;transform:rotate(-2deg)}.sideSign.r{right:1.2%;transform:rotate(2deg)}
+.classRow{position:absolute;left:.6%;right:.6%;top:49.2%;height:16.6%;display:grid;grid-template-columns:repeat(6,1fr);gap:.6%;z-index:8}.classCard{position:relative;overflow:hidden;border:2px solid #6e502a;border-radius:4px;background:#15100c;color:#fff;padding:0;box-shadow:inset 0 0 0 1px #000}.classCard.active{border-color:#43d7ff;box-shadow:0 0 8px #16cfff}.classCard img{position:absolute;left:0;right:0;top:0;width:100%;height:72%;object-fit:contain}.classCard:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#090706ee 45%)}.classCard b{position:absolute;z-index:2;left:1px;right:1px;bottom:15%;font-size:clamp(5px,1.8vw,9px);line-height:1;text-align:center}.classCard small{position:absolute;z-index:2;left:2px;right:2px;bottom:2%;font-size:clamp(3px,1vw,5px);line-height:1.05;text-align:center;color:#e5d4b6}
+.customGrid{position:absolute;left:.7%;right:.7%;top:66.3%;height:17.5%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:.8%;z-index:9}.panel{border:2px solid #76552f;border-radius:4px;background:linear-gradient(#27231f,#16120f);padding:3px 4px;overflow:hidden}.panelTitle{color:#e7c573;font:900 clamp(6px,2vw,10px)/1 Georgia,serif;margin-bottom:3px}.opts{height:70%;display:flex;gap:3px;align-items:stretch}.opt{flex:1;border:1px solid #60452a;border-radius:4px;background:#33271f;color:#f5e4c4;padding:0;font-size:clamp(5px,1.6vw,8px);min-width:0}.opt.active{border:2px solid #3bd5ff;box-shadow:0 0 6px #16cfff;color:#fff}.swatch{border-radius:4px;border:2px solid #5b4027;min-width:18px}.gender .opt{font-size:clamp(14px,5vw,22px)}
+.nameRow{position:absolute;left:.7%;right:.7%;top:84.5%;height:7%;display:grid;grid-template-columns:14% 1fr 9% 23%;gap:.7%;align-items:center;z-index:10}.nameLabel{font:900 clamp(8px,2.4vw,12px)/1 Georgia,serif;color:#e6c16e;text-align:center}.nameInput{width:100%;height:78%;background:#17171a;border:2px solid #665037;color:#fff;padding:0 8px;border-radius:4px;font-size:clamp(8px,2.4vw,12px)}.dice,.legend{height:78%;border:2px solid #76552f;border-radius:4px;background:#24201b;color:#fff;font-weight:900}.legend{background:#c8a46d;color:#321d10;font-size:clamp(5px,1.7vw,8px);line-height:1.1}
+.startBtn{position:absolute;left:20%;right:20%;bottom:1.3%;height:7.5%;z-index:12;border:3px solid #e0ad44;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%);background:linear-gradient(#df342d,#9e1715);color:#fff4d2;font:900 clamp(13px,4.5vw,22px)/1 Georgia,serif;text-shadow:0 2px #58100e;box-shadow:0 4px 10px #000}
+.game{min-height:100svh;padding:10px 10px 74px;background:linear-gradient(#18334b,#6f4926 55%,#17100b);position:relative}.topbar{display:flex;gap:6px;align-items:center;background:#1b1510e8;border:2px solid #815c2e;border-radius:8px;padding:6px}.topbar img{width:42px;height:42px;object-fit:contain}.pill{margin-left:auto;background:#16100d;border:1px solid #72512b;border-radius:7px;padding:6px}.townHero{display:block;margin:40px auto 0;height:410px;max-width:90%;object-fit:contain;filter:drop-shadow(0 10px 7px #000)}.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.menu button{min-height:65px;background:#17110de8;border:2px solid #80592c;color:#ffe5aa;border-radius:7px;font-weight:900}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;background:#0f0a07;border-top:2px solid #64431f}.bottom button{min-height:52px;background:#1d140e;border:1px solid #604526;color:#e5cf9e;border-radius:6px}
+</style></head><body><main class="app">
+<section id="create" class="createPage"><div class="canvas">
+<div class="stage"><div class="torch t1"></div><div class="torch t2"></div><div class="headerLogo">MYTHIC<br>DUNGEONS<small>Kahramanını Oluştur</small></div><button class="iconBtn back">← GERİ</button><button class="iconBtn gear">⚙</button><div class="banner left">KAHRAMANLAR EFSANELER YARATMAZ… ONLAR DİVANALIKTIR!</div><div class="banner right">AYNI ZİNDAN FARKLI AHMAKLAR! İŞTE OLAY BU!</div><div class="sideSign l">İYİ İNSANLAR BURADA DA İÇER!</div><div class="sideSign r">YAĞMALA<br>• GELİŞ<br>• KEPEZ OL<br>• TEKRAR DENE</div><img id="heroArt" class="hero" src="assets/heroes/warrior.svg"></div>
+<div id="classRow" class="classRow"></div>
+<div class="customGrid">
+<div class="panel"><div class="panelTitle">✦ CİNSİYET</div><div class="opts gender" data-k="gender"><button class="opt active" data-v="Erkek">♂<br><small>Erkek</small></button><button class="opt" data-v="Kadın">♀<br><small>Kadın</small></button></div></div>
+<div class="panel"><div class="panelTitle">✦ CÜSSE</div><div class="opts" data-k="body"><button class="opt" data-v="Zayıf">Zayıf</button><button class="opt active" data-v="Normal">Normal</button><button class="opt" data-v="Kaslı">Kaslı</button><button class="opt" data-v="Hantal">Hantal</button></div></div>
+<div class="panel"><div class="panelTitle">✦ SAÇ</div><div class="opts" data-k="hair"><button class="opt active" data-v="1">🧑🏻</button><button class="opt" data-v="2">🧑🏼</button><button class="opt" data-v="3">🧑🏽</button><button class="opt" data-v="4">🧑🏻‍🦳</button><button class="opt" data-v="5">👨🏻‍🦲</button></div></div>
+<div class="panel"><div class="panelTitle">✦ SAKAL</div><div class="opts" data-k="beard"><button class="opt active" data-v="Yok">⊘</button><button class="opt" data-v="1">🧔🏻</button><button class="opt" data-v="2">🧔🏽</button><button class="opt" data-v="3">🧔🏿</button></div></div>
+<div class="panel"><div class="panelTitle">✦ GÖZ RENGİ</div><div class="opts" data-k="eyes"><button class="opt swatch active" data-v="Kahve" style="background:#6f3719"></button><button class="opt swatch" data-v="Mavi" style="background:#20aeea"></button><button class="opt swatch" data-v="Yeşil" style="background:#2fa748"></button><button class="opt swatch" data-v="Altın" style="background:#f1a317"></button><button class="opt swatch" data-v="Mor" style="background:#9144c5"></button></div></div>
+<div class="panel"><div class="panelTitle">✦ TEN RENGİ</div><div class="opts" data-k="skin"><button class="opt swatch active" data-v="1" style="background:#f0bda0"></button><button class="opt swatch" data-v="2" style="background:#d58b5e"></button><button class="opt swatch" data-v="3" style="background:#a25f42"></button><button class="opt swatch" data-v="4" style="background:#714535"></button><button class="opt swatch" data-v="5" style="background:#4b2d28"></button></div></div>
+</div>
+<div class="nameRow"><div class="nameLabel">İSİM</div><input id="heroName" class="nameInput" placeholder="Kahramanının adını gir..." maxlength="16"><button id="dice" class="dice">🎲</button><button class="legend">EFSANE SENİNLE BAŞLAR!</button></div>
+<button id="startBtn" class="startBtn">⚔ MACERAYA BAŞLA</button>
+</div></section>
+<section id="game" class="game hidden"><div class="topbar"><img id="avatar"><div><b id="nameOut">Kahraman</b><div id="classOut" style="font-size:11px;color:#d6bb8a"></div></div><div class="pill">🪙 250</div></div><img id="townHero" class="townHero"><div class="menu"><button>📜<br>GÖREVLER</button><button>💀<br>ZİNDAN</button><button>🛡️<br>KAHRAMAN</button><button>🎒<br>ÇANTA</button><button>🔨<br>DEMİRCİ</button><button>🍺<br>TAVERNA</button></div><div class="bottom"><button>🏰<br>ŞEHİR</button><button>🛡️<br>KAHRAMAN</button><button>🎒<br>ÇANTA</button><button>⚔️<br>SAVAŞ</button></div></section>
+</main><script>
 const HEROES=[
-{name:'Warrior',asset:'assets/heroes/warrior.svg',quote:"A warrior's heart never retreats.",bg:'Born beneath the Iron Banner.',stats:{Strength:14,Agility:7,Intellect:4,Endurance:13,Luck:6},skills:[['⚔️','Heavy Slash'],['🛡️','Shield Bash'],['🌪️','Whirlwind'],['🔥','War Cry']]},
-{name:'Ranger',asset:'assets/heroes/ranger.svg',quote:'The forest always gets the last word.',bg:'Raised by hunters of Greenvale.',stats:{Strength:7,Agility:14,Intellect:5,Endurance:9,Luck:10},skills:[['🏹','Twin Shot'],['🎯','Mark'],['🐺','Companion'],['💨','Evade']]},
-{name:'Mage',asset:'assets/heroes/mage.svg',quote:'Reality is mostly a suggestion.',bg:'Expelled from three academies.',stats:{Strength:4,Agility:6,Intellect:15,Endurance:8,Luck:9},skills:[['⚡','Arcane Bolt'],['❄️','Frost Nova'],['🔥','Fireball'],['🌌','Warp']]},
-{name:'Assassin',asset:'assets/heroes/assassin.svg',quote:'You never saw me. Ideally.',bg:'No official records exist.',stats:{Strength:8,Agility:15,Intellect:4,Endurance:8,Luck:11},skills:[['🗡️','Twin Blade'],['🌑','Shadow'],['☠️','Poison'],['💨','Vanish']]},
-{name:'Paladin',asset:'assets/heroes/paladin.svg',quote:'Justice looks better in gold.',bg:'Sworn to the Sun Chapel.',stats:{Strength:12,Agility:6,Intellect:8,Endurance:14,Luck:5},skills:[['🔨','Smite'],['✨','Holy Light'],['🛡️','Guard'],['☀️','Judgment']]},
-{name:'Necromancer',asset:'assets/heroes/necromancer.svg',quote:'Friends do not have to stay dead.',bg:'Self-taught. Unfortunately.',stats:{Strength:4,Agility:6,Intellect:14,Endurance:9,Luck:10},skills:[['💀','Bone Spear'],['👻','Soul Call'],['☠️','Decay'],['🦴','Raise Dead']]}
+{name:'SAVAŞÇI',asset:'assets/heroes/warrior.svg',tag:'ÖNCE VUR. SONRA SOR.'},
+{name:'OKÇU',asset:'assets/heroes/ranger.svg',tag:'UZAKTAN ÇÖZ, YAKINDAN KAÇ.'},
+{name:'BÜYÜCÜ',asset:'assets/heroes/mage.svg',tag:'SORULAR SOR. GERÇEĞİ UMURSAMA.'},
+{name:'SUİKASTÇI',asset:'assets/heroes/assassin.svg',tag:'ŞİMDİ SAPLA. SONRA AÇIKLA.'},
+{name:'PALADİN',asset:'assets/heroes/paladin.svg',tag:'İYİLİK YAP. HARİKA GÖRÜN.'},
+{name:'NEKROMANSER',asset:'assets/heroes/necromancer.svg',tag:'ARKADAŞLAR ASLA ÖLMEZ.'}
 ];
-const ENEMIES=[
-{name:'Goblin',asset:'assets/enemies/goblin.svg',hp:120},
-{name:'Skeleton',asset:'assets/enemies/skeleton.svg',hp:160},
-{name:'Orc',asset:'assets/enemies/orc.svg',hp:220},
-{name:'Dire Spider',asset:'assets/enemies/spider.svg',hp:285},
-{name:'Ogre',asset:'assets/enemies/ogre.svg',hp:330},
-{name:'Necro Mage',asset:'assets/enemies/necro_mage.svg',hp:380},
-{name:'Dungeon Boss',asset:'assets/enemies/boss.svg',hp:460}
-];
-const state={hero:0,name:'Aydin',level:1,gold:250,gems:5,floor:1,items:[],appearance:{Hair:'Dark',Beard:'Full',Eyes:'Brown',Skin:'Warm'}};
+const S={hero:0,gender:'Erkek',body:'Normal',hair:'1',beard:'Yok',eyes:'Kahve',skin:'1',name:''};
 const $=id=>document.getElementById(id);
-function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(window.to);window.to=setTimeout(()=>t.style.display='none',1700)}
-function buildRail(){const r=$('classRail'),s=$('heroShowcase');r.innerHTML='';s.innerHTML='';HEROES.forEach((h,i)=>{const b=document.createElement('button');b.className='classBtn'+(i===state.hero?' active':'');b.innerHTML='<img src="'+h.asset+'"><span>'+h.name+'</span>';b.onclick=()=>selectHero(i);r.appendChild(b);const m=document.createElement('button');m.className='miniCard'+(i===state.hero?' active':'');m.innerHTML='<img src="'+h.asset+'"><b>'+h.name+'</b>';m.onclick=()=>selectHero(i);s.appendChild(m)})}
-function buildEnemies(){const e=$('enemyPreview');e.innerHTML='';ENEMIES.forEach((x,i)=>{const b=document.createElement('button');b.className='enemyCard';b.innerHTML='<img src="'+x.asset+'"><span>'+x.name+'</span>';b.onclick=()=>{state.floor=Math.min(i+1,5);startGame();show('battle');prepEnemy()};e.appendChild(b)})}
-function selectHero(i){state.hero=i;$('createHeroArt').src=HEROES[i].asset;$('quote').textContent='“'+HEROES[i].quote+'”';buildRail();renderPanel('appearance')}
-function renderPanel(tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));const h=HEROES[state.hero],p=$('sidePanel');if(tab==='appearance'){p.innerHTML='<h3>APPEARANCE</h3><div class="appearanceGrid">'+Object.entries(state.appearance).map(([k,v])=>'<button>'+k+'<br><b>'+v+'</b></button>').join('')+'</div>'}else if(tab==='stats'){p.innerHTML='<h3>STATS</h3>'+Object.entries(h.stats).map(([k,v])=>'<div class="line">'+k+' <b style="float:right">'+v+'</b></div>').join('')}else if(tab==='background'){p.innerHTML='<h3>BACKGROUND</h3><div class="line">'+h.bg+'</div><div class="line">Origin: Eldoria</div><div class="line">Path: The Broken Seal</div>'}else{p.innerHTML='<h3>PREVIEW</h3><div class="line">'+h.name+'</div><div class="line">Level 1</div><div class="line">Starter Gear</div><div class="line">Ready for bad decisions.</div>'}}
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>renderPanel(b.dataset.tab));
-function startGame(){state.name=state.name||'Aydin';$('create').classList.add('hidden');$('game').classList.remove('hidden');render();show('home')}
-$('createCharacter').onclick=()=>startGame();
-function render(){const h=HEROES[state.hero];$('avatar').src=h.asset;$('topName').textContent=state.name;$('topClass').textContent=h.name;$('level').textContent=state.level;$('gold').textContent=state.gold;$('gems').textContent=state.gems;$('townHero').src=h.asset;$('profileHero').src=h.asset;$('battleHero').src=h.asset;$('battleHeroName').textContent=state.name;$('power').textContent=(Object.values(h.stats).reduce((a,b)=>a+b,0)*20+state.level*60).toLocaleString('tr-TR');$('profileInfo').innerHTML='<h3>'+h.name+'</h3>'+Object.entries(h.stats).map(([k,v])=>'<div class="line">'+k+' <b style="float:right">'+(v+state.level-1)+'</b></div>').join('');$('skills').innerHTML=h.skills.map(s=>'<button><span>'+s[0]+'</span>'+s[1]+'</button>').join('');renderBag();prepEnemy()}
-function renderBag(){$('bagCount').textContent=state.items.length;if(!state.items.length){$('inventory').innerHTML='<div class="smallTitle" style="grid-column:1/-1;padding:12px">NO LOOT YET. THE DUNGEON IS HOLDING OUT.</div>';return}$('inventory').innerHTML=state.items.map(i=>'<div class="miniCard" style="min-width:0;height:86px;display:grid;place-items:center;font-size:26px">'+i.icon+'<b>'+i.name+'</b></div>').join('')}
-function prepEnemy(){const idx=Math.min(state.floor-1,ENEMIES.length-1),e=ENEMIES[idx];$('floor').textContent=Math.min(state.floor,5);$('enemyArt').src=e.asset;$('enemyName').textContent=e.name;$('heroHp').style.width='100%';$('enemyHp').style.width='100%'}
-function show(id){document.querySelectorAll('#game .view').forEach(v=>v.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.view===id))}
-document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{show(b.dataset.view);if(b.dataset.view==='battle')prepEnemy()});
-let fighting=false;
-function animateAttack(attacker,target){attacker.classList.add('attack');setTimeout(()=>{attacker.classList.remove('attack');target.classList.add('hit');setTimeout(()=>target.classList.remove('hit'),150)},120)}
-function battle(){if(fighting)return;fighting=true;const btn=$('fightBtn'),log=$('combatLog'),hImg=$('battleHero'),eImg=$('enemyArt');btn.disabled=true;btn.textContent='BATTLE IN PROGRESS...';const enemy=ENEMIES[Math.min(state.floor-1,ENEMIES.length-1)];let eh=enemy.hp+state.level*10,em=eh,hh=185+state.level*28,hm=hh,heroTurn=true;log.innerHTML='⚔️ Battle started.<br>';const loop=setInterval(()=>{if(heroTurn){const d=22+Math.floor(Math.random()*17)+state.level*2;animateAttack(hImg,eImg);eh=Math.max(0,eh-d);$('enemyHp').style.width=(eh/em*100)+'%';log.innerHTML+='🗡️ '+HEROES[state.hero].name+' dealt '+d+' damage.<br>';if(eh<=0){clearInterval(loop);fighting=false;btn.disabled=false;btn.textContent='⚔️ START BATTLE';const gold=55+state.floor*18;state.gold+=gold;state.items.push({name:['Ancient Blade','Lucky Ring','Goblin Mug','Broken Crown'][Math.floor(Math.random()*4)],icon:['🗡️','💍','🏺','👑'][Math.floor(Math.random()*4)]});log.innerHTML+='<b>🏆 '+enemy.name+' defeated! +'+gold+' gold.</b>';state.floor=state.floor>=5?1:state.floor+1;state.level+=state.floor===1?1:0;render();return}}else{const d=9+state.floor*4+Math.floor(Math.random()*9);animateAttack(eImg,hImg);hh=Math.max(0,hh-d);$('heroHp').style.width=(hh/hm*100)+'%';log.innerHTML+='💥 '+enemy.name+' dealt '+d+' damage.<br>';if(hh<=0){clearInterval(loop);fighting=false;btn.disabled=false;btn.textContent='⚔️ START BATTLE';log.innerHTML+='<b>☠️ You were defeated.</b>';return}}heroTurn=!heroTurn;log.scrollTop=log.scrollHeight},520)}
-$('fightBtn').addEventListener('click',battle);
-buildRail();buildEnemies();renderPanel('appearance');
-</script>
-</body></html>
+function buildClasses(){const row=$('classRow');row.innerHTML='';HEROES.forEach((h,i)=>{const b=document.createElement('button');b.className='classCard'+(i===S.hero?' active':'');b.innerHTML='<img src="'+h.asset+'"><b>'+h.name+'</b><small>'+h.tag+'</small>';b.addEventListener('click',()=>{S.hero=i;$('heroArt').src=h.asset;$('heroArt').classList.add('pulse');setTimeout(()=>$('heroArt').classList.remove('pulse'),160);buildClasses()});row.appendChild(b)})}
+function bindOptions(){document.querySelectorAll('.opts').forEach(g=>g.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{g.querySelectorAll('.opt').forEach(x=>x.classList.remove('active'));b.classList.add('active');S[g.dataset.k]=b.dataset.v})))}
+$('dice').addEventListener('click',()=>{const n=['Rauf','Aydin','Boran','Tavukhan','Gribnik','Eldor','Kezbanor'];$('heroName').value=n[Math.floor(Math.random()*n.length)]});
+$('startBtn').addEventListener('click',()=>{S.name=$('heroName').value.trim()||'Adsız Kahraman';$('create').classList.add('hidden');$('game').classList.remove('hidden');$('avatar').src=HEROES[S.hero].asset;$('townHero').src=HEROES[S.hero].asset;$('nameOut').textContent=S.name;$('classOut').textContent=HEROES[S.hero].name});
+buildClasses();bindOptions();
+</script></body></html>
